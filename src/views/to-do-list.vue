@@ -2,6 +2,8 @@
   <div class="to-do-list">
     <h1>A place for to-do list with items that are to be done.</h1>
     <hello></hello>
+    <br/><br/>
+    
   </div>
 </template>
 

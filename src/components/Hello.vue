@@ -1,21 +1,25 @@
 <template>
   <div class="Hello">
     <ul>
-      <li v-for="item in tasks" :key="item.id">
-        <i v-bind:class="{[classes.tick]: tasks.done}"><input type="checkbox" v-model="item.done"></i>
-        <span :class="{done: tasks.done}" v-if="item.done === true"> {{ item.message }} status: done </span>
-        <span :class="{todo: !tasks.done}" v-if="item.done === false"> {{ item.message }} status: to-do </span>
-        <button v-on:click="deleteTask">
+      <li v-for="(item, index) in tasks" :key="index">
+        <input type='checkbox' v-bind:id="index" v-model="item.done"/>
+        <label v-bind:for="index" >
+          <span v-bind:class="{ done: item.done }" v-if="item.done === true"> {{ item.message }} status: done </span>
+          <span v-bind:class="{ todo: !item.done }" v-if="item.done === false"> {{ item.message }} status: to-do </span>
+        </label>
+        <button v-on:click="deleteTask(task)">
           <i class="fas fa-trash-alt"></i>
         </button>
       </li>
+    </ul><br/>
+    <ul v-if="errors.length">
+      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
     </ul>
-    <form v-on:submit="addTask">
+    <form v-on:submit="addTask();">
       <input type="text" v-model="tasks.message">
-      <input type="submit" value="Submit">
+      <button type="submit" value="" required="required" pattern="[A-Za-z0-9]{1,20}"><i class="fas fa-angle-right"></i></button>
     </form>
-    
-    <!--<button v-on:click="addTask">Add task</button>-->
+    <h3>{{getTodos('')}}</h3>
   </div>
 </template>
 
@@ -23,30 +27,43 @@
 //import json from 'https://qunabu.com/api/todos.json'
 export default {
   name: 'hello',
-  data() {
+  data: function() {
     return{
-      classes: {
-        tick: "green fas fa-check",
-      },
-      //myJson: json,
-      newTask:{},
+      errors: [],
       tasks: [
         { done: false, message: 'Clean up the room' },
         { done: true, message: 'Clean up the kitchen' },
-        { done: false, message: 'Go to the grocery store' },
+        { done: false, message: 'Go to the grocery store' }
       ]
     }
   },
   methods:{
+    checkForm: function (e) {
+      if (this.tasks.message) {
+        return true;
+      }
+      if (!this.tasks.message) {
+        this.errors.push('Please add a thing to do.');
+      }
+      e.preventDefault();
+    },
     addTask: function(e){
       this.tasks.push({
         message: this.tasks.message,
         done: false
       })
+      this.tasks.message = "";
       e.preventDefault();
     },
     deleteTask: function(task){
       this.tasks.splice(this.tasks.indexOf(task), 1);
+    },
+    
+    getTodos: function() {
+      this.$http.get('https://jsonplaceholder.typicode.com/todos')
+        .then(response => {
+          console.log(response.body)
+        });
     }
   }
 }
@@ -104,37 +121,77 @@ var filters = {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="scss">
-  ul{
-    list-style-type: none;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
+
+ul{
+  list-style-type: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: auto;
+
   li{
-    transition: all 0.1s;
-    //&::before{font-family: "Font Awesome 5 Free";  font-weight: 100; content: "\f0c8"; color: #ccc;}
+    display: flex;
+    height: minmax(1em, 2em);
+    justify-content: center;
+    align-content: center;
+    transition: all 0.2s;
     &:hover{
-      transition: all 0.1s;
-      font-weight: 900;
+      font-size:1.4em;
     }
-    .done{
-      text-decoration: line-through;
-      color: #ccc;
-    }
-    .todo{
-      background:none;
-    }
-    .green{
-      color:#42b983;
-    }
+    //&::before{font-family: "Font Awesome 5 Free";  font-weight: 100; content: "\f0c8"; color: #ccc;}
     button{
+      background: none;
+      border: none;
       &:hover{
         color:red;
+        background: none;
+        border: none;
       }
     }
-/* CHECK BOX */
-  
+
+    input[type=checkbox] {
+      display:none;
+    }
+
+    input[type=checkbox] + label {
+      background: none;
+      padding: 0 0 0 0px;
+      cursor: pointer;
+      &::before{
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        font-weight: 300;
+        font-size: 1em;
+        content: "\f0c8";
+        color:#ccc;
+        display: inline-block;
+      }
+    }
+    input[type=checkbox]:checked + label {
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      &::before{
+        font-family: "Font Awesome 5 Free";
+        font-weight: 600;
+        font-size: 1em;
+        content:"\f00c";
+        color:green;
+        display: inline-block;
+      }
+    }
   }
+}
+.done{
+  text-decoration: line-through;
+  color: #ccc;
+}
+.todo{
+  color: #444;
+}
+
 </style>

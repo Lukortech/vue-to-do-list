@@ -1,0 +1,179 @@
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+  ul{
+    list-style-type: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin: auto;
+    li{
+    transition: all 0.1s;
+    display: grid;
+    align-items: space-between;
+    label{
+      p{
+        display: block;
+        width: 50vw;
+        color:blueviolet;
+      }
+    }
+    //&::before{font-family: "Font Awesome 5 Free";  font-weight: 100; content: "\f0c8"; color: #ccc;}
+    &:hover{
+      transition: all 0.1s;
+      font-size: 1.4em;
+      cursor: pointer;
+    }
+    .done{
+      text-decoration: line-through;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .todo{
+      
+    }
+    button{
+      &:hover{
+        color:red;
+      }
+    }
+    
+    /* CHECK BOX */
+    input[type=checkbox] {
+      display:none;
+    }
+    input[type=checkbox] + label {
+      background: none;
+      height: 1em;
+      width: 1em;
+      display:inline-block;
+      padding: 0;
+      cursor: pointer;
+      &::before{
+        font-family: "Font Awesome 5 Free";
+        font-weight: 300;
+        font-size: 1em;
+        content:"\f0c8";
+        color:#ccc;
+        cursor: pointer;
+        display:inline-block;
+      }
+    }
+    
+    input[type=checkbox]:checked + label {
+        background: none;
+        height: 1em;
+        width: 1em;
+        display:inline-block;
+        padding: 0;
+        cursor: pointer;
+        &::before{
+          font-family: "Font Awesome 5 Free";
+          font-weight: 600;
+          font-size: 1em;
+          content:"\f00c";
+          color:green;
+          cursor: pointer;
+          display:inline-block;
+        }
+    }
+    /* CUSTOM STYLE FOR CHECKBOX */
+    
+  }
+  }
+  
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+ul{
+  list-style-type: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: auto;
+  li{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+}
+.done{
+  text-decoration: line-through;
+  color: #ccc;
+}
+.todo{
+  color: blue;
+}
+//&::before{font-family: "Font Awesome 5 Free";  font-weight: 100; content: "\f0c8"; color: #ccc;}
+button{
+  &:hover{
+    color:red;
+  }
+}
+
+/* CHECK BOX */
+input[type=checkbox] {
+  display:none;
+}
+
+================================================
+input[type=checkbox] + label {
+  background: none;
+  height: 1em;
+  width: 1em;
+  display:inline-block;
+  padding: 0;
+  cursor: pointer;
+  &::before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 300;
+    font-size: 1em;
+    content:"\f0c8";
+    color:#ccc;
+    cursor: pointer;
+    display:inline-block;
+  }
+}
+===============================================
+input[type=checkbox]:checked + label {
+  background: none;
+  height: 1em;
+  width: 1em;
+  display:inline-block;
+  padding: 0;
+  cursor: pointer;
+  &::before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    font-size: 1em;
+    content:"\f00c";
+    color:green;
+    cursor: pointer;
+    display:inline-block;
+  }
+}
+</style>
