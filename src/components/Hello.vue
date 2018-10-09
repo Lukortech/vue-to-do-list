@@ -2,10 +2,10 @@
   <div class="Hello">
     <ul>
       <li v-for="(item, index) in tasks" :key="index">
-        <input type='checkbox' v-bind:id="index" v-model="item.done"/>
-        <label v-bind:for="index" >
-          <span v-bind:class="{ done: item.done }" v-if="item.done === true"> {{ item.message }} status: done </span>
-          <span v-bind:class="{ todo: !item.done }" v-if="item.done === false"> {{ item.message }} status: to-do </span>
+        <input type='checkbox' v-bind:id="index" v-model="item.completed"/>
+        <label v-bind:for="index">
+          <span v-bind:class="{ done: item.completed }" v-if="item.completed === true">{{ item.id }}. {{ item.title }} status: done </span>
+          <span v-bind:class="{ todo: !item.completed }" v-if="item.completed === false">{{ item.id }}. {{ item.title }} status: to-do </span>
         </label>
         <button v-on:click="deleteTask(task)">
           <i class="fas fa-trash-alt"></i>
@@ -16,10 +16,9 @@
       <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
     </ul>
     <form v-on:submit="addTask();">
-      <input type="text" v-model="tasks.message">
+      <input type="text" v-model="tasks.title">
       <button type="submit" value="" required="required" pattern="[A-Za-z0-9]{1,20}"><i class="fas fa-angle-right"></i></button>
     </form>
-    <h3>{{getTodos('')}}</h3>
   </div>
 </template>
 
@@ -30,11 +29,7 @@ export default {
   data: function() {
     return{
       errors: [],
-      tasks: [
-        { done: false, message: 'Clean up the room' },
-        { done: true, message: 'Clean up the kitchen' },
-        { done: false, message: 'Go to the grocery store' }
-      ]
+      tasks: []
     }
   },
   methods:{
@@ -58,14 +53,19 @@ export default {
     deleteTask: function(task){
       this.tasks.splice(this.tasks.indexOf(task), 1);
     },
-    
+   
     getTodos: function() {
-      this.$http.get('https://jsonplaceholder.typicode.com/todos')
-        .then(response => {
-          console.log(response.body)
-        });
+      this.$http.get('https://jsonplaceholder.typicode.com/todos', {something: "string"})
+      .then ((response) =>{
+        console.log (response.body)
+        this.tasks = response.body
+      } )
+      .catch ((error)=> console.log(error))
     }
-  }
+  },
+  mounted: function () {
+        this.getTodos();
+    }
 }
 
 /*
@@ -123,7 +123,10 @@ var filters = {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
-
+@import url(https://fonts.google.com/?selection.family=Lato);
+html, body{
+  font-family: Lato;
+}
 ul{
   list-style-type: none;
   text-align: center;
@@ -139,6 +142,7 @@ ul{
     justify-content: center;
     align-content: center;
     transition: all 0.2s;
+    
     &:hover{
       font-size:1.4em;
     }
@@ -161,13 +165,16 @@ ul{
       background: none;
       padding: 0 0 0 0px;
       cursor: pointer;
+      span{
+        width: minmax(1em, 50px);
+      }
       &::before{
         font-family: "Font Awesome 5 Free";
         display: inline-block;
         font-weight: 300;
         font-size: 1em;
         content: "\f0c8";
-        color:#ccc;
+        color:#9eb2c0;
         display: inline-block;
       }
     }
@@ -175,6 +182,9 @@ ul{
       background: none;
       padding: 0;
       cursor: pointer;
+      span{
+        width: minmax(1em, 50px);
+      }
       &::before{
         font-family: "Font Awesome 5 Free";
         font-weight: 600;
@@ -188,10 +198,10 @@ ul{
 }
 .done{
   text-decoration: line-through;
-  color: #ccc;
+  color: #9eb2c0;
 }
 .todo{
-  color: #444;
+  color: #2e3641;
 }
 
 </style>
