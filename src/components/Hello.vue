@@ -7,7 +7,7 @@
           <span v-bind:class="{ done: item.completed }" v-if="item.completed === true">{{ item.id }}. {{ item.title }} status: done </span>
           <span v-bind:class="{ todo: !item.completed }" v-if="item.completed === false">{{ item.id }}. {{ item.title }} status: to-do </span>
         </label>
-        <button v-on:click="deleteTask(task)">
+        <button v-on:click="deleteTask(item)">
           <i class="fas fa-trash-alt"></i>
         </button>
       </li>
@@ -34,24 +34,27 @@ export default {
   },
   methods:{
     checkForm: function (e) {
-      if (this.tasks.message) {
+      if (this.tasks.title) {
         return true;
       }
-      if (!this.tasks.message) {
+      if (!this.tasks.title) {
         this.errors.push('Please add a thing to do.');
       }
       e.preventDefault();
     },
     addTask: function(e){
       this.tasks.push({
-        message: this.tasks.message,
-        done: false
+        title: this.tasks.title,
+        done: false,
+        id: this.tasks.length+1
       })
-      this.tasks.message = "";
+      this.tasks.title = "";
       e.preventDefault();
     },
-    deleteTask: function(task){
-      this.tasks.splice(this.tasks.indexOf(task), 1);
+    deleteTask: function(element){
+      this.tasks.splice(
+        this.tasks.indexOf(element), 1
+        );
     },
    
     getTodos: function() {
