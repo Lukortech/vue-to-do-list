@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/to-do-list">To do</router-link>
+      <router-link to="/to-do-list">To-do</router-link>
     </div>
     <router-view/>
     <br/><br/><br/><br/><br/><br/>
@@ -38,4 +38,5 @@
   }
 }
 a {font-weight: bold;color: #2c3e50;padding:0.1em;}
+
 </style>
