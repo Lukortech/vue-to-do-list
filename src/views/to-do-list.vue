@@ -7,9 +7,12 @@
       <li v-for="(item, index) in tasks" :key="index">
         <input type='checkbox' v-bind:id="index" v-model="item.completed"/>
         <label v-bind:for="index" class="content-label">
+          <!-- classes apply dynamically -->
+           <!-- v-if serves the vsole purpose not to show tasks.items as duplicates -->
           <span v-bind:class="{ done: item.completed }" v-if="item.completed === true"> {{ item.title }} status: done </span>
           <span v-bind:class="{ todo: !item.completed }" v-if="item.completed === false"> {{ item.title }} status: to-do </span>
         </label>
+        <!-- simple funcion that takes the exact element and shoves it off the array-->
         <button v-on:click="deleteTask(item)">
           <i class="fas fa-trash-alt"></i>
         </button>
@@ -17,6 +20,7 @@
     </ul><br/>
     <form v-on:submit="addTask();" class="task-input"> 
       <button type="submit" value="" required="required" pattern="[A-Za-z0-9 ]{1,20}"><i class="fas fa-plus"></i></button>
+      <!-- pushing item to the array so it appears as last one. Deleting the input of the user after doing so.-->
       <input type="text" v-model="tasks.title" required="required" placeholder="What is there left to do?">
     </form>
   </div>
@@ -47,7 +51,7 @@ export default {
         this.tasks.indexOf(element), 1
         );
     },
-   
+// I had problems with .get procedure with your API (locally hosted apps not supported?) so I used a placeholder API. 
     getTodos: function() {
       this.$http.get('https://jsonplaceholder.typicode.com/todos', {something: "string"})
       .then ((response) =>{
@@ -63,7 +67,7 @@ export default {
 
 
 </script>
-
+<!-- Styling for elements. There is shadow missing at the bottom and I quite had the problem to style the checkbox properly. -->
 
 <style scoped lang="scss">
 html, body{
