@@ -1,21 +1,18 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/to-all-list">All</router-link>
       <router-link to="/to-do-list">To do</router-link>
-      <router-link to="/to-done-list">Done</router-link>
     </div>
     <router-view/>
     <br/><br/><br/><br/><br/><br/>
-    <p>Footer for anything you do in the app.</p>
+    <p>Created by : <a href="mailto:lukortech@gmail.com">lukortech</a></p>
   </div>
 </template>
 
 <style lang="scss">
+@import url(https://fonts.google.com/?selection.family=Lato);
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Lato', sans-serif;
   text-align: center;
   color: #2c3e50;
 }
@@ -24,13 +21,14 @@
   a {
     font-weight: bold;
     color: #2c3e50;
-    border: solid black;
-    border-width: 1px 1px 1px 1px;
-    padding:0.4em;
+    border: 1px solid black;
+    padding:0.7em;
     transition: all 0.5s;
     &:hover{
       background:#ccc;
       transition: all 0.5s;
+      border: dotted ;
+      border-radius: 2em;
     }
     &.router-link-exact-active {
       color: #42b983;
@@ -39,4 +37,5 @@
     }
   }
 }
+a {font-weight: bold;color: #2c3e50;padding:0.1em;}
 </style>
